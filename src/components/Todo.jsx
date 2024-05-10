@@ -3,7 +3,7 @@ import { Container } from "react-bootstrap";
 import { v4 as uuidv4 } from 'uuid';
 import TodoList from "./TodoList";
 import TodoForm from "./TodoForm";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 const Todo = () => {
     const [data, setData] = useState([])
     const [value, setValue] = useState('')
@@ -55,6 +55,7 @@ const Todo = () => {
                 <TodoForm value={value} setValue={setValue} editStatus={editStatus} submitHandler={submitHandler}/>
                 <TodoList editHandler={editHandler} deleteHandler={deleteHandler} data={data}/>
             </Container>
+            <ToastContainer/>
         </>
     )
 }
