@@ -5,3 +5,21 @@
   padding: 0;
   border: 0;
 }
+body{
+ 
+ background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
+  background-size: contain;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+
+}
+.todo-container{
+  text-align: center;
+  background-color: #a8eb12;
+  min-width: 576px;
+}
+/* .input-group>input{
+  
+} */

@@ -1,6 +1,9 @@
 import { useState } from "react"
+import { Container } from "react-bootstrap";
 import { v4 as uuidv4 } from 'uuid';
-
+import TodoList from "./TodoList";
+import TodoForm from "./TodoForm";
+import { toast } from "react-toastify";
 const Todo = () => {
     const [data, setData] = useState([])
     const [value, setValue] = useState('')
@@ -9,22 +12,28 @@ const Todo = () => {
 
     const submitHandler = () => {
         if (editStatus) {
-          setData(data.map((item)=>{
-            if(item.id === editId){
-                return {...item,text:value}
-            }
-            return item
-          }))
-          setEditStatus(false)
-          setEditId();
-          setValue('')
+            setData(data.map((item) => {
+                if (item.id === editId) {
+                    return { ...item, text: value }
+                }
+                return item
+            }))
+            setEditStatus(false)
+            setEditId();
+            setValue('')
         } else {
-            const id = uuidv4();
-            setData([...data, {
-                id: id,
-                text: value
-            }])
-            setValue('');
+            if(!value){
+                console.log('error')
+                toast("Value required")
+            }else{
+                const id = uuidv4();
+                setData([...data, {
+                    id: id,
+                    text: value
+                }])
+                setValue('');
+            }
+            
         }
     }
     const deleteHandler = (id) => {
@@ -41,31 +50,11 @@ const Todo = () => {
     }
     return (
         <>
-            <h5>TODO</h5>
-            <input type="text" placeholder="type here" value={value} onChange={(e) => setValue(e.target.value)}></input>
-            <button onClick={submitHandler}>{editStatus?"Edit":'Add'}</button>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Todo</th>
-                        <th>Actions</th>
-                    </tr>
-
-                </thead>
-                <tbody>
-                    {data?.map((item, index) => {
-                        const { id, text } = item
-                        return (
-                            <tr key={index}>
-                                <td>{text}</td>
-                                <td><button onClick={() => editHandler(id)}>Edit</button></td>
-                                <td><button onClick={() => deleteHandler(id)}>Delete</button></td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+            <Container fluid className="todo-container shadow rounded my-4 p-5">
+                <h5>TODO</h5>
+                <TodoForm value={value} setValue={setValue} editStatus={editStatus} submitHandler={submitHandler}/>
+                <TodoList editHandler={editHandler} deleteHandler={deleteHandler} data={data}/>
+            </Container>
         </>
     )
 }
